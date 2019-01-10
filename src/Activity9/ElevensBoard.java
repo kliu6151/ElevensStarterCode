@@ -73,7 +73,7 @@ public class ElevensBoard extends Board {
         else if (selectedCards.size() == 3)
         {
             // initializes a list of ranks
-            List<String> ranks = new List<String>();
+            List<String> ranks = new ArrayList<>();
             for(int i = 0 ; i < selectedCards.size();i++){
                 ranks.add(cardAt(selectedCards.get(i)).rank());
             }
