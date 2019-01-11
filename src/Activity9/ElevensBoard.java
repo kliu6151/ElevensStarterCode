@@ -57,15 +57,7 @@ public class ElevensBoard extends Board {
     public boolean isLegal(List<Integer> selectedCards) {
         if(selectedCards.size() == 2)
         {
-
-            if(cardAt(selectedCards.get(0)).pointValue() == 0 || cardAt(selectedCards.get(1)).pointValue() == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return cardAt(selectedCards.get(0)).pointValue() + cardAt(selectedCards.get(1)).pointValue() == 11;
-            }
+            return cardAt(selectedCards.get(0)).pointValue() + cardAt(selectedCards.get(1)).pointValue() == 11;
         }
         // your stupid test
         //System.out.println(selectedCards);
@@ -94,7 +86,8 @@ public class ElevensBoard extends Board {
      */
     @Override
     public boolean anotherPlayIsPossible() {
-		return true;
+        List<Integer> everything = cardIndexes();
+        return containsPairSum11(everything) || containsJQK(everything);
     }
 
     /**
@@ -106,11 +99,14 @@ public class ElevensBoard extends Board {
      *              contain an 11-pair; false otherwise.
      */
     private boolean containsPairSum11(List<Integer> selectedCards) {
-        if(selectedCards.size() == 2) {
-            return selectedCards.get(0) + selectedCards.get(1) == 11;
+        for (int i = 0; i < selectedCards.size(); i++) {
+            for (int j = i + 1; j < selectedCards.size(); j++) {
+                if (cardAt(selectedCards.get(i)).pointValue() + cardAt(selectedCards.get(j)).pointValue() == 11) {
+                    return true;
+                }
+            }
         }
-        else
-            return false;
+        return false;
     }
 
     /**
@@ -123,7 +119,9 @@ public class ElevensBoard extends Board {
      */
     private boolean containsJQK(List<Integer> selectedCards) {
         if(selectedCards.size() == 3) {
-            if (selectedCards.get(0) == 0 || selectedCards.get(1) == 0 || selectedCards.get(2) == 0) {
+            if (cardAt(selectedCards.get(0)).pointValue() == 0 ||
+                    cardAt(selectedCards.get(1)).pointValue() == 0 ||
+                    cardAt(selectedCards.get(2)).pointValue() == 0) {
                 return true;
             }
         }
